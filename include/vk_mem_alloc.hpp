@@ -78,6 +78,8 @@ namespace VMA_HPP_NAMESPACE {
 #include "vk_mem_alloc_funcs.hpp"
 
 namespace VMA_HPP_NAMESPACE {
+  
+#ifndef VULKAN_HPP_NO_SMART_HANDLE
 # define VMA_HPP_DESTROY_IMPL(NAME) \
   template<> VULKAN_HPP_INLINE void VULKAN_HPP_NAMESPACE::UniqueHandleTraits<NAME, Dispatcher>::deleter::destroy(const NAME& t) VULKAN_HPP_NOEXCEPT
 
@@ -88,6 +90,7 @@ namespace VMA_HPP_NAMESPACE {
   VMA_HPP_DESTROY_IMPL(VirtualAllocation) { owner->virtualFree(t); }
 
 # undef VMA_HPP_DESTROY_IMPL
+#endif
 
   template<class InstanceDispatcher, class DeviceDispatcher>
   VULKAN_HPP_CONSTEXPR VulkanFunctions functionsFromDispatcher(InstanceDispatcher const * instance,

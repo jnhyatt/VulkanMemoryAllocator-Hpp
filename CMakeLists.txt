@@ -7,7 +7,12 @@ project(
     LANGUAGES C CXX)
 
 find_package(Vulkan REQUIRED)
-find_package(VulkanMemoryAllocator REQUIRED)
+
+if(EXISTS VulkanMemoryAllocator/CMakeLists.txt)
+    add_subdirectory(VulkanMemoryAllocator)
+else()
+    find_package(VulkanMemoryAllocator REQUIRED)
+endif()
 
 add_library(VulkanMemoryAllocator-Hpp INTERFACE)
 
