@@ -7,7 +7,10 @@ project(
     LANGUAGES C CXX)
 
 find_package(Vulkan REQUIRED)
-find_package(VulkanMemoryAllocator REQUIRED)
+# find_package(VulkanMemoryAllocator REQUIRED)
+
+include (cmake/CPM.cmake)
+CPMAddPackage ("gh:GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator#master")
 
 add_library(VulkanMemoryAllocator-Hpp INTERFACE)
 
