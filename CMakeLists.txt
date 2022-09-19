@@ -1,25 +1,29 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required(VERSION 3.0)
 
-project (VulkanMemoryAllocator-Hpp LANGUAGES C CXX)
+project(
+    VulkanMemoryAllocator-Hpp
+    VERSION 0
+    DESCRIPTION "C++ bindings for the VulkanMemoryAllocator library."
+    LANGUAGES C CXX)
 
-find_package (Vulkan REQUIRED)
-find_package (VulkanMemoryAllocator REQUIRED)
+find_package(Vulkan REQUIRED)
+find_package(VulkanMemoryAllocator REQUIRED)
 
-add_library (VulkanMemoryAllocator-Hpp INTERFACE)
+add_library(VulkanMemoryAllocator-Hpp INTERFACE)
 
-target_include_directories (VulkanMemoryAllocator-Hpp
+target_include_directories(VulkanMemoryAllocator-Hpp
     INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries (VulkanMemoryAllocator-Hpp
+target_link_libraries(VulkanMemoryAllocator-Hpp
     INTERFACE
         Vulkan::Vulkan
         VulkanMemoryAllocator::VulkanMemoryAllocator
 )
 
-install (
+install(
     FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_enums.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_funcs.hpp
@@ -30,19 +34,19 @@ install (
         include
 )
 
-install (
+install(
     FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/VulkanMemoryAllocator-HppConfig.cmake
     DESTINATION
         lib/cmake/VulkanMemoryAllocator-Hpp
 )
 
-install (
+install(
     TARGETS VulkanMemoryAllocator-Hpp
     EXPORT VulkanMemoryAllocator-HppTargets
 )
 
-install (
+install(
     EXPORT VulkanMemoryAllocator-HppTargets
     FILE VulkanMemoryAllocator-HppTargets.cmake
     NAMESPACE VulkanMemoryAllocator-Hpp::
