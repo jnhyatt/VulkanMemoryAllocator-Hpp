@@ -14,7 +14,15 @@ else()
     find_package(VulkanMemoryAllocator REQUIRED)
 endif()
 
-add_library(VulkanMemoryAllocator-Hpp INTERFACE)
+add_library(VulkanMemoryAllocator-Hpp INTERFACE
+    include/vk_mem_alloc_enums.hpp
+    include/vk_mem_alloc_funcs.hpp
+    include/vk_mem_alloc_handles.hpp
+    include/vk_mem_alloc_raii.hpp
+    include/vk_mem_alloc_structs.hpp
+    include/vk_mem_alloc.hpp
+)
+add_library(VulkanMemoryAllocator-Hpp::VulkanMemoryAllocator-Hpp ALIAS VulkanMemoryAllocator-Hpp)
 
 target_include_directories(VulkanMemoryAllocator-Hpp
     INTERFACE
@@ -33,6 +41,7 @@ install(
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_enums.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_funcs.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_handles.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_raii.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc_structs.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/vk_mem_alloc.hpp
     DESTINATION
