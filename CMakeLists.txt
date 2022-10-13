@@ -6,11 +6,15 @@ project(
     DESCRIPTION "C++ bindings for the VulkanMemoryAllocator library."
     LANGUAGES C CXX)
 
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/VulkanMemoryAllocator/CMakeLists.txt)
-    add_subdirectory(VulkanMemoryAllocator)
-else()
-    find_package(VulkanMemoryAllocator REQUIRED)
-endif()
+# if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/VulkanMemoryAllocator/CMakeLists.txt)
+#     add_subdirectory(VulkanMemoryAllocator)
+# else()
+#     find_package(VulkanMemoryAllocator REQUIRED)
+# endif()
+
+include (cmake/CPM.cmake)
+
+CPMAddPackage("gh:jnhyatt/VulkanMemoryAllocator#cmake-fix")
 
 add_library(VulkanMemoryAllocator-Hpp INTERFACE
     # include/vk_mem_alloc_enums.hpp
