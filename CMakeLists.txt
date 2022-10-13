@@ -62,9 +62,9 @@ install(
     EXPORT VulkanMemoryAllocator-HppTargets
 )
 
-install(
-    EXPORT VulkanMemoryAllocator-HppTargets
-    FILE VulkanMemoryAllocator-HppTargets.cmake
-    NAMESPACE VulkanMemoryAllocator-Hpp::
-    DESTINATION lib/cmake/VulkanMemoryAllocator-Hpp
-)
+# install(
+#     EXPORT VulkanMemoryAllocator-HppTargets
+#     FILE VulkanMemoryAllocator-HppTargets.cmake
+#     NAMESPACE VulkanMemoryAllocator-Hpp::
+#     DESTINATION lib/cmake/VulkanMemoryAllocator-Hpp
+# )
