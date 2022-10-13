@@ -89,63 +89,6 @@ namespace VMA_HPP_NAMESPACE { using UniqueVirtualAllocation = VULKAN_HPP_NAMESPA
 #endif
 
 namespace VMA_HPP_NAMESPACE {
-  class Pool {
-  public:
-    using CType      = VmaPool;
-    using NativeType = VmaPool;
-  public:
-    VULKAN_HPP_CONSTEXPR         Pool() = default;
-    VULKAN_HPP_CONSTEXPR         Pool(std::nullptr_t) VULKAN_HPP_NOEXCEPT {}
-    VULKAN_HPP_TYPESAFE_EXPLICIT Pool(VmaPool pool) VULKAN_HPP_NOEXCEPT : m_pool(pool) {}
-
-#if defined(VULKAN_HPP_TYPESAFE_CONVERSION)
-    Pool& operator=(VmaPool pool) VULKAN_HPP_NOEXCEPT {
-      m_pool = pool;
-      return *this;
-    }
-#endif
-
-    Pool& operator=(std::nullptr_t) VULKAN_HPP_NOEXCEPT {
-      m_pool = {};
-      return *this;
-    }
-
-#if defined( VULKAN_HPP_HAS_SPACESHIP_OPERATOR )
-    auto operator<=>(Pool const &) const = default;
-#else
-    bool operator==(Pool const & rhs) const VULKAN_HPP_NOEXCEPT {
-      return m_pool == rhs.m_pool;
-    }
-#endif
-
-    VULKAN_HPP_TYPESAFE_EXPLICIT operator VmaPool() const VULKAN_HPP_NOEXCEPT {
-      return m_pool;
-    }
-
-    explicit operator bool() const VULKAN_HPP_NOEXCEPT {
-      return m_pool != VK_NULL_HANDLE;
-    }
-
-    bool operator!() const VULKAN_HPP_NOEXCEPT {
-      return m_pool == VK_NULL_HANDLE;
-    }
-
-  private:
-    VmaPool m_pool = {};
-  };
-  VULKAN_HPP_STATIC_ASSERT(sizeof(Pool) == sizeof(VmaPool),
-                           "handle and wrapper have different size!");
-}
-#ifndef VULKAN_HPP_NO_SMART_HANDLE
-namespace VULKAN_HPP_NAMESPACE {
-  template<> struct UniqueHandleTraits<VMA_HPP_NAMESPACE::Pool, VMA_HPP_NAMESPACE::Dispatcher> {
-    using deleter = VMA_HPP_NAMESPACE::Deleter<VMA_HPP_NAMESPACE::Pool, VMA_HPP_NAMESPACE::Allocator>;
-  };
-}
-namespace VMA_HPP_NAMESPACE { using UniquePool = VULKAN_HPP_NAMESPACE::UniqueHandle<Pool, Dispatcher>; }
-#endif
-
-namespace VMA_HPP_NAMESPACE {
   class VirtualBlock {
   public:
     using CType      = VmaVirtualBlock;
@@ -277,60 +220,60 @@ namespace VMA_HPP_NAMESPACE { using UniqueVirtualBlock = VULKAN_HPP_NAMESPACE::U
 #endif
 
 namespace VMA_HPP_NAMESPACE {
-  class DefragmentationContext {
+  class Pool {
   public:
-    using CType      = VmaDefragmentationContext;
-    using NativeType = VmaDefragmentationContext;
+    using CType      = VmaPool;
+    using NativeType = VmaPool;
   public:
-    VULKAN_HPP_CONSTEXPR         DefragmentationContext() = default;
-    VULKAN_HPP_CONSTEXPR         DefragmentationContext(std::nullptr_t) VULKAN_HPP_NOEXCEPT {}
-    VULKAN_HPP_TYPESAFE_EXPLICIT DefragmentationContext(VmaDefragmentationContext defragmentationContext) VULKAN_HPP_NOEXCEPT : m_defragmentationContext(defragmentationContext) {}
+    VULKAN_HPP_CONSTEXPR         Pool() = default;
+    VULKAN_HPP_CONSTEXPR         Pool(std::nullptr_t) VULKAN_HPP_NOEXCEPT {}
+    VULKAN_HPP_TYPESAFE_EXPLICIT Pool(VmaPool pool) VULKAN_HPP_NOEXCEPT : m_pool(pool) {}
 
 #if defined(VULKAN_HPP_TYPESAFE_CONVERSION)
-    DefragmentationContext& operator=(VmaDefragmentationContext defragmentationContext) VULKAN_HPP_NOEXCEPT {
-      m_defragmentationContext = defragmentationContext;
+    Pool& operator=(VmaPool pool) VULKAN_HPP_NOEXCEPT {
+      m_pool = pool;
       return *this;
     }
 #endif
 
-    DefragmentationContext& operator=(std::nullptr_t) VULKAN_HPP_NOEXCEPT {
-      m_defragmentationContext = {};
+    Pool& operator=(std::nullptr_t) VULKAN_HPP_NOEXCEPT {
+      m_pool = {};
       return *this;
     }
 
 #if defined( VULKAN_HPP_HAS_SPACESHIP_OPERATOR )
-    auto operator<=>(DefragmentationContext const &) const = default;
+    auto operator<=>(Pool const &) const = default;
 #else
-    bool operator==(DefragmentationContext const & rhs) const VULKAN_HPP_NOEXCEPT {
-      return m_defragmentationContext == rhs.m_defragmentationContext;
+    bool operator==(Pool const & rhs) const VULKAN_HPP_NOEXCEPT {
+      return m_pool == rhs.m_pool;
     }
 #endif
 
-    VULKAN_HPP_TYPESAFE_EXPLICIT operator VmaDefragmentationContext() const VULKAN_HPP_NOEXCEPT {
-      return m_defragmentationContext;
+    VULKAN_HPP_TYPESAFE_EXPLICIT operator VmaPool() const VULKAN_HPP_NOEXCEPT {
+      return m_pool;
     }
 
     explicit operator bool() const VULKAN_HPP_NOEXCEPT {
-      return m_defragmentationContext != VK_NULL_HANDLE;
+      return m_pool != VK_NULL_HANDLE;
     }
 
     bool operator!() const VULKAN_HPP_NOEXCEPT {
-      return m_defragmentationContext == VK_NULL_HANDLE;
+      return m_pool == VK_NULL_HANDLE;
     }
 
   private:
-    VmaDefragmentationContext m_defragmentationContext = {};
+    VmaPool m_pool = {};
   };
-  VULKAN_HPP_STATIC_ASSERT(sizeof(DefragmentationContext) == sizeof(VmaDefragmentationContext),
+  VULKAN_HPP_STATIC_ASSERT(sizeof(Pool) == sizeof(VmaPool),
                            "handle and wrapper have different size!");
 }
 #ifndef VULKAN_HPP_NO_SMART_HANDLE
 namespace VULKAN_HPP_NAMESPACE {
-  template<> struct UniqueHandleTraits<VMA_HPP_NAMESPACE::DefragmentationContext, VMA_HPP_NAMESPACE::Dispatcher> {
-    using deleter = VMA_HPP_NAMESPACE::Deleter<VMA_HPP_NAMESPACE::DefragmentationContext, void>;
+  template<> struct UniqueHandleTraits<VMA_HPP_NAMESPACE::Pool, VMA_HPP_NAMESPACE::Dispatcher> {
+    using deleter = VMA_HPP_NAMESPACE::Deleter<VMA_HPP_NAMESPACE::Pool, VMA_HPP_NAMESPACE::Allocator>;
   };
 }
-namespace VMA_HPP_NAMESPACE { using UniqueDefragmentationContext = VULKAN_HPP_NAMESPACE::UniqueHandle<DefragmentationContext, Dispatcher>; }
+namespace VMA_HPP_NAMESPACE { using UniquePool = VULKAN_HPP_NAMESPACE::UniqueHandle<Pool, Dispatcher>; }
 #endif
 
 namespace VMA_HPP_NAMESPACE {
@@ -388,6 +331,63 @@ namespace VULKAN_HPP_NAMESPACE {
   };
 }
 namespace VMA_HPP_NAMESPACE { using UniqueAllocation = VULKAN_HPP_NAMESPACE::UniqueHandle<Allocation, Dispatcher>; }
+#endif
+
+namespace VMA_HPP_NAMESPACE {
+  class DefragmentationContext {
+  public:
+    using CType      = VmaDefragmentationContext;
+    using NativeType = VmaDefragmentationContext;
+  public:
+    VULKAN_HPP_CONSTEXPR         DefragmentationContext() = default;
+    VULKAN_HPP_CONSTEXPR         DefragmentationContext(std::nullptr_t) VULKAN_HPP_NOEXCEPT {}
+    VULKAN_HPP_TYPESAFE_EXPLICIT DefragmentationContext(VmaDefragmentationContext defragmentationContext) VULKAN_HPP_NOEXCEPT : m_defragmentationContext(defragmentationContext) {}
+
+#if defined(VULKAN_HPP_TYPESAFE_CONVERSION)
+    DefragmentationContext& operator=(VmaDefragmentationContext defragmentationContext) VULKAN_HPP_NOEXCEPT {
+      m_defragmentationContext = defragmentationContext;
+      return *this;
+    }
+#endif
+
+    DefragmentationContext& operator=(std::nullptr_t) VULKAN_HPP_NOEXCEPT {
+      m_defragmentationContext = {};
+      return *this;
+    }
+
+#if defined( VULKAN_HPP_HAS_SPACESHIP_OPERATOR )
+    auto operator<=>(DefragmentationContext const &) const = default;
+#else
+    bool operator==(DefragmentationContext const & rhs) const VULKAN_HPP_NOEXCEPT {
+      return m_defragmentationContext == rhs.m_defragmentationContext;
+    }
+#endif
+
+    VULKAN_HPP_TYPESAFE_EXPLICIT operator VmaDefragmentationContext() const VULKAN_HPP_NOEXCEPT {
+      return m_defragmentationContext;
+    }
+
+    explicit operator bool() const VULKAN_HPP_NOEXCEPT {
+      return m_defragmentationContext != VK_NULL_HANDLE;
+    }
+
+    bool operator!() const VULKAN_HPP_NOEXCEPT {
+      return m_defragmentationContext == VK_NULL_HANDLE;
+    }
+
+  private:
+    VmaDefragmentationContext m_defragmentationContext = {};
+  };
+  VULKAN_HPP_STATIC_ASSERT(sizeof(DefragmentationContext) == sizeof(VmaDefragmentationContext),
+                           "handle and wrapper have different size!");
+}
+#ifndef VULKAN_HPP_NO_SMART_HANDLE
+namespace VULKAN_HPP_NAMESPACE {
+  template<> struct UniqueHandleTraits<VMA_HPP_NAMESPACE::DefragmentationContext, VMA_HPP_NAMESPACE::Dispatcher> {
+    using deleter = VMA_HPP_NAMESPACE::Deleter<VMA_HPP_NAMESPACE::DefragmentationContext, void>;
+  };
+}
+namespace VMA_HPP_NAMESPACE { using UniqueDefragmentationContext = VULKAN_HPP_NAMESPACE::UniqueHandle<DefragmentationContext, Dispatcher>; }
 #endif
 
 namespace VMA_HPP_NAMESPACE {

@@ -241,11 +241,13 @@ public class Generate {
                       enum class $0$1 {
                         {{{e${name} = ${originalName}${,$}}}}
                       };
-                    
+
+                    #if !defined( VULKAN_HPP_NO_TO_STRING )
                       VULKAN_HPP_INLINE std::string to_string($0 value) {
                         {{{if (value == $0::e${name}) return "${name}";}}}
                         return "invalid ( " + VULKAN_HPP_NAMESPACE::toHexString(static_cast<uint32_t>(value)) + " )";
                       }
+                    #endif
                     }
                     """, entries, name, flagBits ? (" : Vma" + flags) : ""));
             if (flagBits) {
@@ -279,13 +281,15 @@ public class Generate {
                           VULKAN_HPP_INLINE VULKAN_HPP_CONSTEXPR $1 operator~($0 bits) VULKAN_HPP_NOEXCEPT {
                             return ~($1(bits));
                           }
-                        
+
+                        #if !defined( VULKAN_HPP_NO_TO_STRING )
                           VULKAN_HPP_INLINE std::string to_string($1 value) {
                             if (!value) return "{}";
                             std::string result;
                             {{{if (value & $0::e${name}) result += "${name} | ";}}}
                             return "{ " + result.substr( 0, result.size() - 3 ) + " }";
                           }
+                        #endif
                         }
                         """, entries, name, flags));
             }
