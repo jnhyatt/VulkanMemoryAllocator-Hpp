@@ -5,7 +5,8 @@
 namespace VMA_HPP_NAMESPACE::raii {
     class Allocation {
     public:
-        Allocation(const VMA_HPP_NAMESPACE::Allocator& allocator, VMA_HPP_NAMESPACE::Allocation allocation) : m_allocator(allocator), m_allocation(allocation) {}
+        Allocation(const VMA_HPP_NAMESPACE::Allocator& allocator, VMA_HPP_NAMESPACE::Allocation allocation)
+            : m_allocator(allocator), m_allocation(allocation) {}
 
         Allocation(std::nullptr_t) {}
 
@@ -57,7 +58,17 @@ namespace VMA_HPP_NAMESPACE::raii {
             if (result != vk::Result::eSuccess) {
                 vk::throwResultException(result, "vmaCreateAllocator");
             }
-            m_device = &device;
+            m_device = *device;
+            m_pDispatcher = device.getDispatcher();
+        }
+
+        Allocator(const AllocatorCreateInfo& createInfo, vk::Device device, const vk::raii::DeviceDispatcher& dispatcher) {
+            vk::Result result = VMA_HPP_NAMESPACE::createAllocator(&createInfo, &m_allocator);
+            if (result != vk::Result::eSuccess) {
+                vk::throwResultException(result, "vmaCreateAllocator");
+            }
+            m_device = device;
+            m_pDispatcher = &dispatcher;
         }
 
         Allocator(std::nullptr_t) {}
@@ -66,13 +77,16 @@ namespace VMA_HPP_NAMESPACE::raii {
 
         Allocator() = delete;
         Allocator(const Allocator&) = delete;
-        Allocator(Allocator&& rhs) noexcept : m_allocator(std::exchange(rhs.m_allocator, {})), m_device(std::exchange(rhs.m_device, {})) {}
+        Allocator(Allocator&& rhs) noexcept
+            : m_allocator(std::exchange(rhs.m_allocator, {})), m_device(std::exchange(rhs.m_device, {})),
+              m_pDispatcher(std::exchange(rhs.m_pDispatcher, nullptr)) {}
         Allocator& operator=(const Allocator&) = delete;
         Allocator& operator=(Allocator&& rhs) noexcept {
             if (this != &rhs) {
                 clear();
                 m_allocator = std::exchange(rhs.m_allocator, {});
                 m_device = std::exchange(rhs.m_device, {});
+                m_pDispatcher = std::exchange(rhs.m_pDispatcher, nullptr);
             }
             return *this;
         }
@@ -85,29 +99,32 @@ namespace VMA_HPP_NAMESPACE::raii {
             }
             m_allocator = nullptr;
             m_device = nullptr;
+            m_pDispatcher = nullptr;
         }
 
         void swap(Allocator& rhs) noexcept {
             std::swap(m_allocator, rhs.m_allocator);
             std::swap(m_device, rhs.m_device);
+            std::swap(m_pDispatcher, rhs.m_pDispatcher);
         }
 
-        std::pair<vk::raii::Buffer, VMA_HPP_NAMESPACE::raii::Allocation> createBuffer(const vk::BufferCreateInfo& bufferCreateInfo,
-                                                                        const VMA_HPP_NAMESPACE::AllocationCreateInfo& allocationCreateInfo,
-                                                                        vk::Optional<VMA_HPP_NAMESPACE::AllocationInfo> allocationInfo = nullptr) const {
+        std::pair<vk::raii::Buffer, VMA_HPP_NAMESPACE::raii::Allocation>
+        createBuffer(const vk::BufferCreateInfo& bufferCreateInfo, const VMA_HPP_NAMESPACE::AllocationCreateInfo& allocationCreateInfo,
+                     vk::Optional<VMA_HPP_NAMESPACE::AllocationInfo> allocationInfo = nullptr) const {
             auto [buffer, allocation] = m_allocator.createBuffer(bufferCreateInfo, allocationCreateInfo, allocationInfo);
-            return {vk::raii::Buffer(*m_device, static_cast<VkBuffer>(buffer)), VMA_HPP_NAMESPACE::raii::Allocation(**this, allocation)};
+            return {vk::raii::Buffer(m_device, m_pDispatcher, static_cast<VkBuffer>(buffer)), VMA_HPP_NAMESPACE::raii::Allocation(**this, allocation)};
         }
 
-        std::pair<vk::raii::Image, VMA_HPP_NAMESPACE::raii::Allocation> createImage(const vk::ImageCreateInfo& imageCreateInfo,
-                                                                      const VMA_HPP_NAMESPACE::AllocationCreateInfo& allocationCreateInfo,
-                                                                      vk::Optional<VMA_HPP_NAMESPACE::AllocationInfo> allocationInfo = nullptr) const {
+        std::pair<vk::raii::Image, VMA_HPP_NAMESPACE::raii::Allocation>
+        createImage(const vk::ImageCreateInfo& imageCreateInfo, const VMA_HPP_NAMESPACE::AllocationCreateInfo& allocationCreateInfo,
+                    vk::Optional<VMA_HPP_NAMESPACE::AllocationInfo> allocationInfo = nullptr) const {
             auto [image, allocation] = m_allocator.createImage(imageCreateInfo, allocationCreateInfo, allocationInfo);
-            return {vk::raii::Image(*m_device, static_cast<VkImage>(image)), VMA_HPP_NAMESPACE::raii::Allocation(**this, allocation)};
+            return {vk::raii::Image(m_device, m_pDispatcher, static_cast<VkImage>(image)), VMA_HPP_NAMESPACE::raii::Allocation(**this, allocation)};
         }
 
     private:
         VMA_HPP_NAMESPACE::Allocator m_allocator = {};
-        const vk::raii::Device* m_device = nullptr;
+        vk::Device m_device = {};
+        const vk::raii::DeviceDispatcher* m_pDispatcher = nullptr;
     };
 } // namespace VMA_HPP_NAMESPACE::raii
